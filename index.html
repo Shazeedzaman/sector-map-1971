@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eleven Sectors — Bangladesh Liberation War, 1971</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Noto+Serif+Bengali:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F1E1A;
+    --ink-2:#16302A;
+    --paper:#E9E3D3;
+    --paper-2:#DCD4C0;
+    --line:#2E5449;
+    --text:#EFEDE4;
+    --muted:#9FB3AC;
+    --gold:#E0B25C;
+    --sans:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --serif:'Source Serif 4',Georgia,'Times New Roman',serif;
+    --bn:'Noto Serif Bengali',var(--serif);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--text);
+    font-family:var(--serif);
+    font-size:17px;
+    line-height:1.6;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:clamp(20px,4vw,56px) clamp(16px,4vw,40px) 80px}
+
+  header{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:30px}
+  h1{
+    font-family:var(--sans);
+    font-weight:800;
+    font-size:clamp(30px,6.4vw,58px);
+    line-height:0.98;
+    letter-spacing:-0.025em;
+    margin:0 0 10px;
+    max-width:14ch;
+  }
+  .bn{font-family:var(--bn);color:var(--gold);font-size:clamp(15px,3vw,20px);line-height:1.5;margin:0 0 14px}
+  .lede{max-width:66ch;color:var(--muted);margin:0;font-size:16px}
+  .lede b{color:var(--text);font-weight:600}
+
+  .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:start}
+  @media (max-width:900px){.grid{grid-template-columns:1fr;gap:22px}}
+
+  .mapcard{
+    background:var(--paper);
+    border-radius:3px;
+    padding:12px 12px 8px;
+    position:sticky;top:16px;
+    box-shadow:0 18px 40px rgba(0,0,0,.45);
+  }
+  @media (max-width:900px){.mapcard{position:static}}
+  svg{display:block;width:100%;height:auto;touch-action:manipulation}
+  .sector{cursor:pointer;stroke:var(--paper);stroke-width:1.6;transition:opacity .15s ease}
+  .sector:hover{opacity:.78}
+  .sector:focus-visible{outline:none;stroke:#111;stroke-width:3}
+  .sector.on{stroke:#101010;stroke-width:3}
+  .outline-stroke{fill:none;stroke:#1B2E28;stroke-width:2.2}
+  .numlab{font-family:var(--sans);font-weight:800;font-size:19px;fill:#12211C;pointer-events:none;text-anchor:middle;paint-order:stroke;stroke:rgba(255,255,255,.62);stroke-width:3.4}
+  .sea{font-family:var(--sans);font-weight:500;font-size:13px;fill:#5C7A72;letter-spacing:.06em}
+  .maphint{font-family:var(--sans);font-size:12px;color:#5B6E67;padding:4px 4px 2px;margin:0}
+
+  .panel{border:1px solid var(--line);border-radius:3px;background:var(--ink-2);padding:22px 22px 24px;min-height:420px}
+  .panel .tag{
+    display:inline-block;font-family:var(--sans);font-weight:600;font-size:13px;
+    padding:3px 10px;border-radius:2px;color:#0F1E1A;margin-bottom:12px;
+  }
+  .panel h2{font-family:var(--sans);font-weight:600;font-size:23px;line-height:1.2;margin:0 0 4px;letter-spacing:-0.01em}
+  .panel .hq{color:var(--gold);font-size:15px;margin:0 0 18px}
+  .row{border-top:1px solid var(--line);padding:13px 0}
+  .row h3{font-family:var(--sans);font-weight:600;font-size:13px;color:var(--muted);margin:0 0 5px;letter-spacing:.02em}
+  .row p{margin:0;font-size:16px}
+  .cmd{margin:0 0 6px}
+  .cmd:last-child{margin-bottom:0}
+  .cmd span{color:var(--muted);font-size:14px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+  .chip{font-family:var(--sans);font-size:13px;padding:3px 9px;border:1px solid var(--line);border-radius:2px;color:var(--text)}
+  .chip.part{color:var(--muted);border-style:dashed}
+
+  .legend{display:flex;flex-wrap:wrap;gap:6px;margin:26px 0 0}
+  .legend button{
+    font-family:var(--sans);font-size:13px;font-weight:500;
+    background:none;border:1px solid var(--line);color:var(--text);
+    border-radius:2px;padding:5px 10px;cursor:pointer;display:flex;align-items:center;gap:7px;
+  }
+  .legend button:hover{border-color:var(--gold)}
+  .legend button[aria-pressed="true"]{background:var(--ink-2);border-color:var(--gold)}
+  .sw{width:11px;height:11px;border-radius:1px;flex:none}
+
+  h2.sect{font-family:var(--sans);font-weight:600;font-size:22px;margin:54px 0 14px;letter-spacing:-0.01em}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:3px}
+  table{border-collapse:collapse;width:100%;min-width:760px;font-size:15px}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--sans);font-weight:600;font-size:13px;color:var(--muted);background:var(--ink-2);position:sticky;top:0}
+  tbody tr:last-child td{border-bottom:none}
+  td.n{font-family:var(--sans);font-weight:800;font-size:16px;white-space:nowrap}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:1px;margin-right:7px;vertical-align:1px}
+
+  .note{margin-top:34px;border-left:2px solid var(--gold);padding:2px 0 2px 16px;color:var(--muted);font-size:15px;max-width:72ch}
+  .note strong{color:var(--text);font-weight:600}
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Eleven sectors, one command</h1>
+  <p class="bn">মুক্তিযুদ্ধ ১৯৭১ — ১১টি সেক্টর ও সেক্টর কমান্ডারগণ</p>
+  <p class="lede">In July 1971 the Bangladesh Forces divided the country into eleven sectors under <b>General M. A. G. Osmani</b> as Commander-in-Chief. Tap a sector on the map to see who commanded it, where its headquarters sat, and which of today's 64 districts fall inside it.</p>
+</header>
+
+<div class="grid">
+  <div>
+    <div class="mapcard">
+      <svg id="map" viewBox="0 0 560 800" role="img" aria-label="Map of Bangladesh divided into the eleven sectors of the 1971 Liberation War"></svg>
+      <p class="maphint">Schematic map. Sector lines are approximate — 1971 boundaries followed old districts and rivers.</p>
+    </div>
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="panel" id="panel"></div>
+</div>
+
+<h2 class="sect">All eleven sectors at a glance</h2>
+<div class="tablewrap">
+  <table>
+    <thead><tr><th>Sector</th><th>Commander(s)</th><th>Headquarters</th><th>Present-day districts</th></tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<div class="note">
+  <strong>Three brigade forces also operated across sector lines:</strong> Z Force under Lt. Col. Ziaur Rahman (1st, 3rd, 8th East Bengal), K Force under Lt. Col. Khaled Mosharraf (4th, 9th, 10th East Bengal), and S Force under Lt. Col. K. M. Shafiullah (2nd, 11th East Bengal). Lt. Col. M. A. Rab served as Chief of Army Staff and Group Captain A. K. Khandker as Deputy Chief of the Bangladesh Forces.
+</div>
+
+<footer>
+  Compiled from the Bangladesh Army sector records, Banglapedia, the Liberation War Museum and Maj. Gen. K. M. Safiullah's <i>Bangladesh at War</i>. Several sectors changed commanders mid-war; both the first and later holders are listed.
+</footer>
+</div>
+
+<script>
+const S = [
+ {n:1, c:"#B5533F", hq:"Harina, Tripura",
+  area:"Chattogram district, the Chittagong Hill Tracts, and the whole of eastern Noakhali up to the Muhuri river.",
+  cmd:[["Maj. Ziaur Rahman","10 April – early June 1971"],["Capt. (later Maj.) Rafiqul Islam","June 1971 – April 1972"]],
+  d:["Chattogram","Cox's Bazar","Rangamati","Khagrachhari","Bandarban"], p:["Feni (east of Muhuri)"],
+  sub:"Rishimukh, Sreenagar, Manughat, Tabalchhari, Dimagiri",
+  poly:[[91.05,22.40],[91.25,22.85],[91.45,23.05],[92.80,23.05],[92.80,20.40],[91.30,20.40],[91.30,21.90]], lab:[92.05,22.20]},
+
+ {n:2, c:"#C77C3A", hq:"Melaghar, Tripura",
+  area:"Dhaka, Comilla and Faridpur districts with part of Noakhali — the sector that ran the Dhaka guerrilla campaign.",
+  cmd:[["Maj. Khaled Mosharraf","10 April – 22 September 1971"],["Maj. A. T. M. Haider","22 September 1971 – April 1972"]],
+  d:["Dhaka","Narayanganj","Munshiganj","Narsingdi","Cumilla","Chandpur","Noakhali","Lakshmipur"], p:["Gazipur","Feni (west)","Faridpur (Nagarkanda)"],
+  sub:"Gangasagar, Akhaura, Kasba, Mandabhag, Shalda-nadi, Matinagar, Nirbhoypur, Rajnagar, Nagarkanda",
+  poly:[[89.90,23.72],[89.95,24.20],[90.55,24.25],[90.80,24.10],[91.10,24.05],[91.15,23.75],[91.45,23.40],[91.45,23.00],[91.25,22.85],[91.05,22.40],[90.75,22.90],[90.62,23.35],[90.35,23.55]], lab:[90.85,23.45]},
+
+ {n:3, c:"#8C8A33", hq:"Hezamara, Tripura",
+  area:"From Churamankathi near Sreemangal and Sylhet in the north down to Singerbil in Brahmanbaria.",
+  cmd:[["Maj. K. M. Shafiullah","10 April – 21 July 1971"],["Capt. A. N. M. Nuruzzaman","23 July 1971 – April 1972"]],
+  d:["Kishoreganj","Brahmanbaria"], p:["Habiganj (south)","Moulvibazar (west)"],
+  sub:"Asrambari, Baghaibari, Hatkata, Simla, Panchabati, Mantala, Vijoynagar, Kalachhora, Kalkalia, Bamutia",
+  poly:[[90.55,24.25],[90.70,24.85],[91.15,24.80],[91.50,24.55],[91.90,24.40],[92.05,24.25],[91.75,24.10],[91.40,24.00],[91.10,24.05],[90.80,24.10]], lab:[91.20,24.30]},
+
+ {n:4, c:"#4E8B5A", hq:"Karimganj, later Masimpur",
+  area:"A 160 km stretch of the Indian border from Habiganj in the north to Kanaighat thana in the south.",
+  cmd:[["Maj. Chitta Ranjan Dutta","10 April 1971 – April 1972"],["Capt. A. Rab","deputy / acting"]],
+  d:[], p:["Sylhet (south & east)","Moulvibazar (east)","Habiganj (north)"],
+  sub:"Jalalpur, Barapunji, Amlasid, Kukital, Kailashahar, Kamalpur",
+  poly:[[91.50,24.55],[91.90,24.40],[92.05,24.25],[92.50,24.25],[92.50,24.85],[92.20,25.00],[91.95,24.90],[91.75,24.75]], lab:[92.10,24.58]},
+
+ {n:5, c:"#3F8079", hq:"Banshtala, Meghalaya",
+  area:"From Durgapur to Dawki–Tamabil in Sylhet and the whole belt up to the district's eastern border.",
+  cmd:[["Maj. Mir Shawkat Ali","10 April 1971 – April 1972"]],
+  d:["Sunamganj"], p:["Sylhet (north — Tamabil, Jaflong, Companiganj)"],
+  sub:"Muktapur, Dawki, Shela, Bholaganj, Balat, Barachhara",
+  poly:[[91.05,25.32],[92.30,25.20],[92.20,25.00],[91.95,24.90],[91.75,24.75],[91.50,24.55],[91.15,24.80]], lab:[91.55,25.00]},
+
+ {n:6, c:"#3E6F9E", hq:"Burimari, near Patgram",
+  area:"The whole of the old Rangpur district and the northern part of Dinajpur — the only sector led by an air force officer.",
+  cmd:[["Wing Cdr. M. Khademul Bashar","10 April 1971 – April 1972"]],
+  d:["Rangpur","Nilphamari","Lalmonirhat","Kurigram","Panchagarh","Thakurgaon"], p:["Dinajpur (north)"],
+  sub:"Bhajanpur, Patgram, Sahebganj, Phulbari, Mogalhat, Chilahati",
+  poly:[[87.80,26.80],[90.10,26.80],[90.10,25.32],[87.80,25.32]], lab:[89.00,25.90]},
+
+ {n:7, c:"#5B5E9E", hq:"Tarangapur, near Kaliaganj",
+  area:"Rajshahi, Pabna, Bogra and part of Dinajpur. About fifteen thousand freedom fighters fought here.",
+  cmd:[["Maj. Nazmul Huq","10 April – 27 September 1971 (died in a road accident)"],["Maj. Quazi Nuruzzaman","30 September 1971 – April 1972"],["Subedar Maj. A. Rab","interim"]],
+  d:["Rajshahi","Chapainawabganj","Naogaon","Natore","Bogura","Joypurhat","Pabna","Sirajganj"], p:["Dinajpur (south)"],
+  sub:"Malan, Tapan, Mehdipur, Hamzapur, Anginabad, Sheikhpara, Thokrabari, Lalgola",
+  poly:[[87.80,25.32],[89.60,25.32],[89.75,24.90],[89.75,24.00],[89.60,23.75],[89.00,24.05],[88.40,24.35],[88.05,24.62],[87.80,24.90]], lab:[88.85,24.65]},
+
+ {n:8, c:"#8C4E86", hq:"Benapole",
+  area:"First Kushtia, Jessore, Khulna, Barisal, Faridpur and Patuakhali; reorganised at the end of May to Kushtia, Jessore, Khulna, Satkhira and northern Faridpur.",
+  cmd:[["Maj. Abu Osman Chowdhury","10 April – 17 July 1971"],["Maj. M. A. Manzur","14 August 1971 – April 1972"]],
+  d:["Kushtia","Chuadanga","Meherpur","Jashore","Jhenaidah","Magura","Narail","Satkhira","Rajbari"], p:["Khulna (north)","Faridpur (north)"],
+  sub:"Boyra, Hakimpur, Bhomra, Lalbazar, Banpur, Benapole, Shikarpur",
+  poly:[[87.80,24.90],[88.05,24.62],[88.40,24.35],[89.00,24.05],[89.60,23.75],[89.90,23.72],[89.95,23.30],[89.70,22.95],[89.20,22.75],[88.60,22.72],[87.80,22.72]], lab:[88.85,23.40]},
+
+ {n:9, c:"#A34B63", hq:"Hasnabad (Taki), West Bengal",
+  area:"Barisal, Patuakhali and parts of Khulna and Faridpur — a riverine sector fought largely from boats.",
+  cmd:[["Maj. M. A. Jalil","17 July – 24 December 1971"],["Maj. M. A. Manzur","also commanded"],["Maj. Joynal Abedin","also commanded"]],
+  d:["Barishal","Jhalokathi","Pirojpur","Bhola","Patuakhali","Barguna","Bagerhat","Gopalganj","Madaripur","Shariatpur"], p:["Khulna (south / Sundarbans)"],
+  sub:"Barisal, Patuakhali, Shamshernagar",
+  poly:[[87.80,22.72],[88.60,22.72],[89.20,22.75],[89.70,22.95],[89.95,23.30],[89.90,23.72],[90.35,23.55],[90.62,23.35],[90.75,22.90],[91.05,22.40],[91.30,21.90],[91.30,20.40],[87.80,20.40]], lab:[90.05,22.55]},
+
+ {n:10, c:"#6E7C86", hq:"Directly under the Commander-in-Chief",
+  area:"No fixed territory. The naval commandos and the C-in-C's special force operated in the Bay of Bengal and on every major river and port, most famously in Operation Jackpot of 15 August 1971.",
+  cmd:[["Lt. A. M. Ataul Haque","17 July – 16 December 1971"],["Under Gen. M. A. G. Osmani","C-in-C, Bangladesh Forces"]],
+  d:[], p:["Chattogram port","Mongla (Bagerhat)","Chandpur","Narayanganj","Bay of Bengal"],
+  sub:"Naval commando teams trained at Plassey; absorbed into the Bangladesh Navy after the war",
+  poly:null, lab:[90.60,21.05]},
+
+ {n:11, c:"#4F7D3E", hq:"Teldhala, then Mahendraganj from 10 October",
+  area:"The whole of Tangail and Mymensingh except the Kishoreganj subdivision, plus Gaibandha, Ulipur, Chilmari and Kamalpur.",
+  cmd:[["Maj. Ziaur Rahman","10 June – 10 October 1971"],["Maj. Abu Taher","10 October – 2 November 1971 (wounded at Kamalpur)"],["Sqn. Ldr. M. Hamidullah Khan","2 November 1971 – April 1972"]],
+  d:["Mymensingh","Netrokona","Jamalpur","Sherpur","Tangail"], p:["Gaibandha","Kurigram (Chilmari, Ulipur)"],
+  sub:"Mankachar, Mahendraganj, Purakhasia, Dhalu, Rangra, Shibbari, Bagmara, Maheshkhola",
+  poly:[[89.60,25.32],[91.05,25.32],[90.70,24.85],[90.55,24.25],[89.95,24.20],[89.75,24.30],[89.75,24.90]], lab:[90.25,24.85]}
+];
+
+const OUTLINE=[[88.35,26.55],[88.75,26.30],[89.00,26.40],[89.30,26.15],[89.65,26.20],[89.85,25.95],[89.80,25.30],[90.00,25.15],[90.40,25.15],[90.70,25.20],[91.00,25.20],[91.30,25.15],[91.70,25.15],[92.15,25.10],[92.30,24.90],[92.15,24.60],[92.35,24.40],[91.95,24.20],[91.35,24.10],[91.20,23.70],[91.45,23.40],[91.45,23.05],[91.70,22.95],[92.35,22.95],[92.65,22.20],[92.60,21.30],[92.30,20.75],[92.20,21.20],[91.85,21.60],[91.80,22.20],[91.40,22.55],[91.10,22.20],[90.80,22.10],[90.60,21.85],[90.30,21.85],[90.10,22.05],[89.60,21.65],[89.05,21.70],[88.95,22.10],[89.10,22.55],[88.90,22.90],[88.75,23.25],[88.65,23.70],[88.75,24.05],[88.40,24.25],[88.05,24.65],[88.30,24.90],[88.35,25.20],[88.10,25.20],[88.30,25.60],[88.15,26.00],[88.05,26.25]];
+
+const px = p => [((p[0]-88)*119.1).toFixed(1), ((26.7-p[1])*127.9).toFixed(1)].join(",");
+const pts = a => a.map(px).join(" ");
+const NS = "http://www.w3.org/2000/svg";
+const svg = document.getElementById("map");
+
+svg.innerHTML =
+  `<defs><clipPath id="bd"><polygon points="${pts(OUTLINE)}"/></clipPath></defs>
+   <polygon points="${pts(OUTLINE)}" fill="#DCD4C0"/>
+   <g clip-path="url(#bd)">` +
+  S.filter(s=>s.poly).map(s=>
+    `<polygon class="sector" data-n="${s.n}" tabindex="0" role="button"
+      aria-label="Sector ${s.n}" points="${pts(s.poly)}" fill="${s.c}" fill-opacity="0.82"/>`).join("") +
+  `</g>
+   <polygon class="outline-stroke" points="${pts(OUTLINE)}"/>` +
+  S.filter(s=>s.poly).map(s=>`<text class="numlab" x="${px(s.lab).split(",")[0]}" y="${px(s.lab).split(",")[1]}">${s.n}</text>`).join("") +
+  `<g><circle cx="${px(S[9].lab).split(",")[0]}" cy="${px(S[9].lab).split(",")[1]}" r="15" fill="#6E7C86" class="sector" data-n="10" tabindex="0" role="button" aria-label="Sector 10, naval commandos"/>
+     <text class="numlab" x="${px(S[9].lab).split(",")[0]}" y="${(+px(S[9].lab).split(",")[1]+6).toFixed(1)}" style="stroke:none;fill:#fff">10</text>
+     <text class="sea" x="${(+px(S[9].lab).split(",")[0]+22).toFixed(1)}" y="${(+px(S[9].lab).split(",")[1]+5).toFixed(1)}">Bay of Bengal</text></g>`;
+
+const panel = document.getElementById("panel");
+const legend = document.getElementById("legend");
+const tbody = document.getElementById("tbody");
+
+S.forEach(s=>{
+  const b=document.createElement("button");
+  b.type="button"; b.setAttribute("aria-pressed","false"); b.dataset.n=s.n;
+  b.innerHTML=`<span class="sw" style="background:${s.c}"></span>Sector ${s.n}`;
+  b.onclick=()=>show(s.n);
+  legend.appendChild(b);
+
+  const tr=document.createElement("tr");
+  tr.innerHTML=`<td class="n"><span class="dot" style="background:${s.c}"></span>${s.n}</td>
+    <td>${s.cmd.map(c=>c[0]).join("<br>")}</td>
+    <td>${s.hq}</td>
+    <td>${s.d.concat(s.p).join(", ")||"—"}</td>`;
+  tbody.appendChild(tr);
+});
+
+function show(n){
+  const s=S.find(x=>x.n===n);
+  panel.innerHTML=`
+    <span class="tag" style="background:${s.c};color:#fff">Sector ${s.n}</span>
+    <h2>${s.d[0]?s.d.slice(0,3).join(" · "):s.p.slice(0,2).join(" · ")}</h2>
+    <p class="hq">Headquarters: ${s.hq}</p>
+    <div class="row"><h3>Sector commander</h3>
+      ${s.cmd.map(c=>`<p class="cmd">${c[0]}<br><span>${c[1]}</span></p>`).join("")}</div>
+    <div class="row"><h3>Area of operations in 1971</h3><p>${s.area}</p></div>
+    <div class="row"><h3>Present-day districts</h3>
+      <div class="chips">${s.d.map(d=>`<span class="chip">${d}</span>`).join("")}
+      ${s.p.map(d=>`<span class="chip part">${d}</span>`).join("")}</div></div>
+    <div class="row"><h3>Sub-sectors</h3><p>${s.sub}</p></div>`;
+  document.querySelectorAll(".sector").forEach(el=>el.classList.toggle("on",+el.dataset.n===n));
+  legend.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.n===n)));
+}
+
+svg.addEventListener("click",e=>{const t=e.target.closest(".sector"); if(t) show(+t.dataset.n);});
+svg.addEventListener("keydown",e=>{
+  if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("sector")){e.preventDefault();show(+e.target.dataset.n);}
+});
+show(1);
+</script>
+</body>
+</html>
