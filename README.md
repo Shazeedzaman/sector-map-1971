@@ -4,7 +4,7 @@ An interactive, single-file map of the eleven sectors into which the Bangladesh 
 divided the country in 1971, with sector commanders, headquarters, sub-sectors, and the
 present-day districts that fall inside each sector.
 
-**Live:** https://Shazeedzaman.github.io/sector-map-1971/
+**Live:** https://shazeedzaman.github.io/sector-map-1971/
 
 ## What's in it
 
